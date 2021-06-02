@@ -1,0 +1,42 @@
+RECODE sex ('female'=0) ('male'=1) (MISSING=SYSMIS) INTO sex_recode. 
+EXECUTE. 
+REGRESSION 
+  /MISSING LISTWISE 
+  /STATISTICS COEFF OUTS CI(95) R ANOVA 
+  /CRITERIA=PIN(.05) POUT(.10) 
+  /NOORIGIN 
+  /DEPENDENT pain 
+  /METHOD=ENTER age sex_recode STAI_trait pain_cat cortisol_serum mindfulness.
+  
+  REGRESSION 
+  /DESCRIPTIVES MEAN STDDEV CORR SIG N 
+  /MISSING LISTWISE 
+  /STATISTICS COEFF OUTS CI(95) R ANOVA COLLIN TOL 
+  /CRITERIA=PIN(.05) POUT(.10) 
+  /NOORIGIN 
+  /DEPENDENT pain 
+  /METHOD=ENTER age STAI_trait pain_cat cortisol_serum mindfulness sex_recode.
+  
+  MIXED pain WITH age STAI_trait pain_cat cortisol_serum mindfulness sex_recode 
+  /CRITERIA=DFMETHOD(SATTERTHWAITE) CIN(95) MXITER(100) MXSTEP(10) SCORING(1) 
+    SINGULAR(0.000000000001) HCONVERGE(0, ABSOLUTE) LCONVERGE(0, ABSOLUTE) PCONVERGE(0.000001, ABSOLUTE) 
+  /FIXED=age STAI_trait pain_cat cortisol_serum mindfulness sex_recode | SSTYPE(3) 
+  /METHOD=REML 
+  /PRINT=CORB  SOLUTION 
+  /RANDOM=INTERCEPT | SUBJECT(ID) COVTYPE(VC) 
+  /SAVE=FIXPRED.
+  
+  DESCRIPTIVES VARIABLES=age STAI_trait pain_cat cortisol_serum mindfulness sex_recode FXPRED_1 
+  /STATISTICS=MEAN STDDEV VARIANCE MIN MAX.
+  
+  MIXED pain WITH age STAI_trait pain_cat cortisol_serum mindfulness sex_recode 
+  /CRITERIA=DFMETHOD(SATTERTHWAITE) CIN(95) MXITER(100) MXSTEP(10) SCORING(1) 
+    SINGULAR(0.000000000001) HCONVERGE(0, ABSOLUTE) LCONVERGE(0, ABSOLUTE) PCONVERGE(0.000001, ABSOLUTE) 
+  /FIXED=age STAI_trait pain_cat cortisol_serum mindfulness sex_recode | SSTYPE(3) 
+  /METHOD=REML 
+  /PRINT=SOLUTION 
+  /RANDOM=INTERCEPT age STAI_trait pain_cat cortisol_serum mindfulness sex_recode | SUBJECT(ID) 
+    COVTYPE(UN) 
+  /SAVE=PRED.
+  
+  
