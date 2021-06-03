@@ -1,0 +1,90 @@
+REGRESSION 
+  /MISSING LISTWISE 
+  /STATISTICS COEFF OUTS R ANOVA 
+  /CRITERIA=PIN(.05) POUT(.10) 
+  /NOORIGIN 
+  /DEPENDENT liberal 
+  /METHOD=ENTER ar1 ar2 ar3 ar4 ar5 ar6 ar7 ar8 ar9 ar10 ar11 ar12 ar13 ar14 ar15 ar16 ar17 ar18 
+    ar19 ar20 ar21 ar22 ar23 ar24 ar25 ar26 ar27 ar28 sex party.
+    
+  CORRELATIONS 
+  /VARIABLES=ar1 ar2 ar3 ar4 ar5 ar6 ar7 ar8 ar9 ar10 ar11 ar12 ar13 ar14 ar15 ar16 ar17 ar18 ar19 
+    ar20 ar21 ar22 ar23 ar24 ar25 ar26 ar27 ar28 
+  /PRINT=TWOTAIL NOSIG 
+  /MISSING=PAIRWISE.
+  
+  FACTOR 
+  /VARIABLES ar1 ar2 ar3 ar4 ar5 ar6 ar7 ar8 ar9 ar10 ar11 ar12 ar13 ar14 ar15 ar16 ar17 ar18 ar19 
+    ar20 ar21 ar22 ar23 ar24 ar25 ar26 ar27 ar28 
+  /MISSING LISTWISE 
+  /ANALYSIS ar1 ar2 ar3 ar4 ar5 ar6 ar7 ar8 ar9 ar10 ar11 ar12 ar13 ar14 ar15 ar16 ar17 ar18 ar19 
+    ar20 ar21 ar22 ar23 ar24 ar25 ar26 ar27 ar28 
+  /PRINT UNIVARIATE INITIAL EXTRACTION 
+  /PLOT EIGEN 
+  /CRITERIA MINEIGEN(1) ITERATE(25) 
+  /EXTRACTION PC 
+  /ROTATION NOROTATE 
+  /METHOD=CORRELATION
+  
+  * Parallel Analysis Program For Raw Data and Data Permutations. 
+ 
+* To run this program you need to first specify the data 
+  for analysis and then RUN, all at once, the commands 
+  from the MATRIX statement to the END MATRIX statement. 
+ 
+* This program conducts parallel analyses on data files in which 
+  the rows of the data matrix are cases/individuals and the 
+  columns are variables;  Data are read/entered into the program 
+  using the GET command (see the GET command below);  The GET 
+  command reads an SPSS data file, which can be either the 
+  current, active SPSS data file or a previously saved data file; 
+  A valid filename/location must be specified on the GET command; 
+  A subset of variables for the analyses can be specified by using 
+  the "/ VAR =" subcommand with the GET statement;  There can be 
+  no missing values. 
+ 
+* You must also specify: 
+  -- the # of parallel data sets for the analyses; 
+  -- the desired percentile of the distribution and random 
+     data eigenvalues; 
+  -- whether principal components analyses or principal axis/common 
+     factor analysis are to be conducted, and 
+  -- whether normally distributed random data generation or 
+     permutations of the raw data set are to be used in the 
+     parallel analyses. 
+ 
+* Permutations of the raw data set can be time consuming; 
+  Each parallel data set is based on column-wise random shufflings 
+  of the values in the raw data matrix using Castellan's (1992, 
+  BRMIC, 24, 72-77) algorithm; The distributions of the original 
+  raw variables are exactly preserved in the shuffled versions used 
+  in the parallel analyses; Permutations of the raw data set are 
+  thus highly accurate and most relevant, especially in cases where 
+  the raw data are not normally distributed or when they do not meet 
+  the assumption of multivariate normality (see Longman & Holden, 
+  1992, BRMIC, 24, 493, for a Fortran version); If you would 
+  like to go this route, it is perhaps best to (1) first run a 
+  normally distributed random data generation parallel analysis to 
+  familiarize yourself with the program and to get a ballpark 
+  reference point for the number of factors/components; 
+  (2) then run a permutations of the raw data parallel analysis 
+  using a small number of datasets (e.g., 100), just to see how long 
+  the program takes to run; then (3) run a permutations of the raw 
+  data parallel analysis using the number of parallel data sets that 
+  you would like use for your final analyses; 1000 datasets are 
+  usually sufficient, although more datasets should be used if 
+  there are close calls. 
+ 
+ 
+* These next commands generate artificial raw data 
+  (500 cases) that can be used for a trial-run of 
+  the program, instead of using your own raw data; 
+  Just select and run this whole file; However, make sure to 
+  delete the artificial data commands before attempting to 
+  run your own data. 
+ 
+ 
+ 
+ 
+set mxloops=9000 printback=off width=80  seed = 1953125.
+
